@@ -1,7 +1,7 @@
 (export (version D)
   (design
     (source /home/elaine/Projects/Hydroponics_Sensor/hw/project.sch)
-    (date "Wed 04 Jun 2014 23:52:46 BST")
+    (date "Mon 30 Jun 2014 20:35:00 BST")
     (tool "eeschema (2014-03-19 BZR 4756)-product"))
   (components
     (comp (ref C5)
@@ -294,10 +294,10 @@
         (pin (num 1) (name 1) (type passive))
         (pin (num 2) (name 2) (type passive)))))
   (libraries
-    (library (logical 10to7_network)
-      (uri ../../ComponentLibrary/10to7_network.lib))
     (library (logical 10to7_arduino)
       (uri ../../ComponentLibrary/10to7_arduino.lib))
+    (library (logical 10to7_network)
+      (uri ../../ComponentLibrary/10to7_network.lib))
     (library (logical 10to7_connectors)
       (uri ../../ComponentLibrary/10to7_connectors.lib))
     (library (logical device)
