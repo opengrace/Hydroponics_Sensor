@@ -1,4 +1,4 @@
-PCBNEW-BOARD Version 2 date Mon 30 Jun 2014 23:35:46 BST
+PCBNEW-BOARD Version 2 date Mon 30 Jun 2014 23:44:00 BST
 
 # Created by Pcbnew(2014-03-19 BZR 4756)-product
 
@@ -62,7 +62,7 @@ SolderMaskMinWidth 0
 GridOrigin 176.2 83.15
 AuxiliaryAxisOrg 150.40102 65.00114
 VisibleElements FFFFFF7F
-PcbPlotParams (pcbplotparams (layerselection 284983297) (usegerberextensions true) (excludeedgelayer false) (linewidth 0.150000) (plotframeref false) (viasonmask false) (mode 1) (useauxorigin false) (hpglpennumber 1) (hpglpenspeed 20) (hpglpendiameter 15) (hpglpenoverlay 0) (psnegative false) (psa4output false) (plotreference true) (plotvalue true) (plotothertext true) (plotinvisibletext false) (padsonsilk false) (subtractmaskfromsilk false) (outputformat 1) (mirror false) (drillshape 0) (scaleselection 1) (outputdirectory Gerber))
+PcbPlotParams (pcbplotparams (layerselection 284196865) (usegerberextensions true) (excludeedgelayer false) (linewidth 0.150000) (plotframeref false) (viasonmask false) (mode 1) (useauxorigin false) (hpglpennumber 1) (hpglpenspeed 20) (hpglpendiameter 15) (hpglpenoverlay 0) (psnegative false) (psa4output false) (plotreference true) (plotvalue true) (plotothertext true) (plotinvisibletext false) (padsonsilk false) (subtractmaskfromsilk false) (outputformat 1) (mirror false) (drillshape 0) (scaleselection 1) (outputdirectory Gerber))
 $EndSETUP
 
 $EQUIPOT
@@ -235,14 +235,14 @@ uViaDrill 0.127
 AddNet "VCC"
 $EndNCLASS
 $MODULE Arduino_Nano
-Po 190.3 79.25 0 15 53B1DB17 538FAA22 ~~
+Po 190.3 79.25 0 15 53B1E809 538FAA22 ~~
 Li Arduino_Nano
 Kw Arduino Nano
 Sc 538FAA22
 AR /53680FFE
 Op 0 0 0
 T0 -10.16 -2.54 1.72974 1.08712 0 0.27178 N I 21 N "U2"
-T1 5.65 -2.3 1.524 1.016 0 0.254 N V 21 N "ARDUINO_NANO"
+T1 5.65 -2.3 1.524 1.016 0 0.254 N V 21 N "ARDUINO NANO"
 T2 -16.4 2.2 0.8 0.8 0 0.2 N V 21 N "VIN"
 T2 19.2 7.2 1.524 1.524 900 0.3048 N V 21 N "USB"
 DA -17.6 13.4 -17.6 11.9 900 0.381 21
@@ -523,14 +523,14 @@ Ro 0 0 0
 $EndSHAPE3D
 $EndMODULE Pin_Header_Straight_1x04
 $MODULE 2_Pin_Screw_5mm_Pitch
-Po 180.95 65.45 1800 0 5389EFD1 5389C4FA ~~
+Po 180.95 65.45 1800 0 53B1E816 5389C4FA ~~
 Li 2_Pin_Screw_5mm_Pitch
 Sc 5389C4FA
 AR /5368103A
 Op 0 0 0
 At VIRTUAL
 T0 -4.0005 5.79882 1.016 1.016 1800 0.0889 M V 20 N "P8"
-T1 0 -6.4008 1.016 1.016 1800 0.0889 M V 20 N "LowWater"
+T1 0 -6.4008 1.016 1.016 1800 0.0889 M V 20 N "Low Water"
 DS -5.00126 2.49936 5.00126 2.49936 0.381 20
 DS -5.00126 5.00126 -5.00126 -5.00126 0.381 20
 DS -5.00126 -5.00126 5.00126 -5.00126 0.381 20
@@ -552,14 +552,14 @@ Po 2.49936 0
 $EndPAD
 $EndMODULE 2_Pin_Screw_5mm_Pitch
 $MODULE 2_Pin_Screw_5mm_Pitch
-Po 200.95 65.45 1800 0 5389EFDE 53B1C462 ~~
+Po 200.95 65.45 1800 0 53B1E82A 53B1C462 ~~
 Li 2_Pin_Screw_5mm_Pitch
 Sc 53B1C462
 AR /53681048
 Op 0 0 0
 At VIRTUAL
 T0 -4.0005 5.79882 1.016 1.016 1800 0.0889 M V 20 N "P9"
-T1 0 -6.4008 1.016 1.016 1800 0.0889 M V 20 N "Tank1High"
+T1 0 -6.4008 1.016 1.016 1800 0.0889 M V 20 N "Tank 1 High"
 DS -5.00126 2.49936 5.00126 2.49936 0.381 20
 DS -5.00126 5.00126 -5.00126 -5.00126 0.381 20
 DS -5.00126 -5.00126 5.00126 -5.00126 0.381 20
@@ -581,14 +581,14 @@ Po 2.49936 0
 $EndPAD
 $EndMODULE 2_Pin_Screw_5mm_Pitch
 $MODULE 2_Pin_Screw_5mm_Pitch
-Po 190.95 65.45 1800 0 5389EFE7 53B1C46E ~~
+Po 190.95 65.45 1800 0 53B1E81F 53B1C46E ~~
 Li 2_Pin_Screw_5mm_Pitch
 Sc 53B1C46E
 AR /5368104D
 Op 0 0 0
 At VIRTUAL
 T0 -4.0005 5.79882 1.016 1.016 1800 0.0889 M V 20 N "P10"
-T1 0 -6.4008 1.016 1.016 1800 0.0889 M V 20 N "Tank2High"
+T1 0 -6.4008 1.016 1.016 1800 0.0889 M V 20 N "Tank 2 High"
 DS -5.00126 2.49936 5.00126 2.49936 0.381 20
 DS -5.00126 5.00126 -5.00126 -5.00126 0.381 20
 DS -5.00126 -5.00126 5.00126 -5.00126 0.381 20
@@ -678,13 +678,13 @@ Ro 0 0 0
 $EndSHAPE3D
 $EndMODULE SM0402
 $MODULE NRF24L01_10_Pin
-Po 210.65 70.15 900 15 5389F7B5 5389CA04 ~~
+Po 210.65 70.15 900 15 53B1E7F2 5389CA04 ~~
 Li NRF24L01_10_Pin
 Kw NRF24L01_10_pin
 Sc 5389CA04
 AR /53691F00
 Op 0 0 0
-T0 7.3 -1.7 1.016 1.016 1800 0.2032 N V 21 N "U1"
+T0 7.5 -2.45 1.016 1.016 1800 0.2032 N V 21 N "U1"
 T1 0.0254 3.72618 1.016 1.016 900 0.2032 N I 21 N "NRF24L01-10PIN"
 DS -6.35 -2.54 6.35 -2.54 0.3048 21
 DS 6.35 -2.54 6.35 2.54 0.3048 21
