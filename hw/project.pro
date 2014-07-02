@@ -1,4 +1,4 @@
-update=Mon 30 Jun 2014 21:00:17 BST
+update=Wed 02 Jul 2014 23:38:51 BST
 version=1
 last_client=pcbnew
 [general]
@@ -88,7 +88,7 @@ EquName1=devcms
 version=1
 PageLayoutDescrFile=
 LastNetListRead=project.net
-UseCmpFile=1
+UseCmpFile=0
 PadDrill=1.50114
 PadDrillOvalY=1.50114
 PadSizeH=1.99898
