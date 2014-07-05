@@ -1,210 +1,217 @@
-Cmp-Mod V01 Created by CvPcb (2014-03-19 BZR 4756)-product date = Thu 05 Jun 2014 00:10:54 BST
+Cmp-Mod V01 Created by CvPcb (2014-03-19 BZR 4756)-product date = Sat 05 Jul 2014 20:28:09 BST
 
 BeginCmp
-TimeStamp = /536D5791;
+TimeStamp = /53B80D3E;
 Reference = C1;
 ValeurCmp = 4.7uF;
 IdModule  = 10to7_sm_standard:SM0603;
 EndCmp
 
 BeginCmp
-TimeStamp = /536D538B;
+TimeStamp = /53B81669;
 Reference = C2;
 ValeurCmp = 1nF;
 IdModule  = 10to7_sm_standard:SM0402;
 EndCmp
 
 BeginCmp
-TimeStamp = /536D5383;
+TimeStamp = /53B816F6;
 Reference = C3;
 ValeurCmp = 10uF;
 IdModule  = 10to7_sm_standard:SM0402;
 EndCmp
 
 BeginCmp
-TimeStamp = /536D5046;
+TimeStamp = /53B81746;
 Reference = C4;
 ValeurCmp = 10uF;
 IdModule  = 10to7_sm_standard:SM0402;
 EndCmp
 
 BeginCmp
-TimeStamp = /536E34C3;
+TimeStamp = /53B81898;
 Reference = C5;
 ValeurCmp = 47uF;
 IdModule  = Capacitors_Elko_ThroughHole:Elko_vert_DM5_RM2;
 EndCmp
 
 BeginCmp
-TimeStamp = /5389B413;
+TimeStamp = /53B80F2B;
 Reference = D1;
 ValeurCmp = LED;
 IdModule  = 10to7_sm_standard:SM0603_Polarity;
 EndCmp
 
 BeginCmp
-TimeStamp = /5389B363;
+TimeStamp = /53B810E7;
 Reference = D2;
 ValeurCmp = LED;
 IdModule  = 10to7_sm_standard:SM0603_Polarity;
 EndCmp
 
 BeginCmp
-TimeStamp = /5389ADAB;
+TimeStamp = /53B810FC;
 Reference = D3;
 ValeurCmp = LED;
 IdModule  = 10to7_sm_standard:SM0603_Polarity;
 EndCmp
 
 BeginCmp
-TimeStamp = /5389B23C;
+TimeStamp = /53B81111;
 Reference = D4;
 ValeurCmp = LED;
 IdModule  = 10to7_sm_standard:SM0603_Polarity;
 EndCmp
 
 BeginCmp
-TimeStamp = /536A9778;
+TimeStamp = /53B81EC1;
+Reference = K1;
+ValeurCmp = 1Wire;
+IdModule  = 10to7_connectors:JST_XH_1.25_3_Pin;
+EndCmp
+
+BeginCmp
+TimeStamp = /53B82088;
+Reference = K2;
+ValeurCmp = 1Wire;
+IdModule  = 10to7_connectors:JST_XH_1.25_3_Pin;
+EndCmp
+
+BeginCmp
+TimeStamp = /53B81EA4;
 Reference = P1;
-ValeurCmp = Inputs;
+ValeurCmp = I2C;
+IdModule  = 10to7_connectors:JST_XH_1.5_4_Pin;
+EndCmp
+
+BeginCmp
+TimeStamp = /53B81D4D;
+Reference = P2;
+ValeurCmp = I2C;
+IdModule  = 10to7_connectors:JST_XH_1.5_4_Pin;
+EndCmp
+
+BeginCmp
+TimeStamp = /53B820A3;
+Reference = P3;
+ValeurCmp = Relay;
 IdModule  = 10to7_connectors:JST_XH_2.5_4_Pin;
 EndCmp
 
 BeginCmp
-TimeStamp = /53681129;
-Reference = P3;
-ValeurCmp = DS18B20;
-IdModule  = 10to7_connectors:JST_XH_1.25_3_Pin;
-EndCmp
-
-BeginCmp
-TimeStamp = /53694FB9;
+TimeStamp = /53B818E5;
 Reference = P4;
-ValeurCmp = DS18B20;
-IdModule  = 10to7_connectors:JST_XH_1.25_3_Pin;
-EndCmp
-
-BeginCmp
-TimeStamp = /536A9887;
-Reference = P5;
-ValeurCmp = I2C;
-IdModule  = 10to7_connectors:JST_XH_1.5_4_Pin;
-EndCmp
-
-BeginCmp
-TimeStamp = /536E0352;
-Reference = P6;
-ValeurCmp = I2C;
-IdModule  = 10to7_connectors:JST_XH_1.5_4_Pin;
-EndCmp
-
-BeginCmp
-TimeStamp = /536AA644;
-Reference = P7;
-ValeurCmp = Milone eTape Sensor;
-IdModule  = Pin_Headers:Pin_Header_Straight_1x04;
-EndCmp
-
-BeginCmp
-TimeStamp = /5368103A;
-Reference = P8;
 ValeurCmp = LowWater;
 IdModule  = 10to7_connectors:2_Pin_Screw_5mm_Pitch;
 EndCmp
 
 BeginCmp
-TimeStamp = /53681048;
-Reference = P9;
+TimeStamp = /53B8195F;
+Reference = P5;
 ValeurCmp = Tank1High;
 IdModule  = 10to7_connectors:2_Pin_Screw_5mm_Pitch;
 EndCmp
 
 BeginCmp
-TimeStamp = /5368104D;
-Reference = P10;
+TimeStamp = /53B8196E;
+Reference = P6;
 ValeurCmp = Tank2High;
 IdModule  = 10to7_connectors:2_Pin_Screw_5mm_Pitch;
 EndCmp
 
 BeginCmp
-TimeStamp = /53694ED2;
+TimeStamp = /53B81A7B;
+Reference = P7;
+ValeurCmp = eTape;
+IdModule  = Pin_Headers:Pin_Header_Straight_1x04;
+EndCmp
+
+BeginCmp
+TimeStamp = /53B8516E;
+Reference = P8;
+ValeurCmp = Power_In;
+IdModule  = 10to7_connectors:2_Pin_Screw_5mm_Pitch;
+EndCmp
+
+BeginCmp
+TimeStamp = /53B80F84;
 Reference = R1;
-ValeurCmp = 4k7;
-IdModule  = 10to7_sm_standard:SM0603;
+ValeurCmp = 460;
+IdModule  = 10to7_sm_standard:SM0402;
 EndCmp
 
 BeginCmp
-TimeStamp = /53694EC1;
+TimeStamp = /53B810ED;
 Reference = R2;
+ValeurCmp = 460;
+IdModule  = 10to7_sm_standard:SM0402;
+EndCmp
+
+BeginCmp
+TimeStamp = /53B822B2;
+Reference = R3;
 ValeurCmp = 4k7;
 IdModule  = 10to7_sm_standard:SM0603;
 EndCmp
 
 BeginCmp
-TimeStamp = /536AA0E5;
-Reference = R3;
-ValeurCmp = 560;
-IdModule  = 10to7_sm_standard:SM0402;
-EndCmp
-
-BeginCmp
-TimeStamp = /536D473A;
+TimeStamp = /53B8229E;
 Reference = R4;
-ValeurCmp = 560;
-IdModule  = 10to7_sm_standard:SM0402;
+ValeurCmp = 4k7;
+IdModule  = 10to7_sm_standard:SM0603;
 EndCmp
 
 BeginCmp
-TimeStamp = /5389B419;
+TimeStamp = /53B81102;
 Reference = R5;
-ValeurCmp = 560;
+ValeurCmp = 460;
 IdModule  = 10to7_sm_standard:SM0402;
 EndCmp
 
 BeginCmp
-TimeStamp = /5389B369;
+TimeStamp = /53B81117;
 Reference = R6;
-ValeurCmp = 560;
+ValeurCmp = 460;
 IdModule  = 10to7_sm_standard:SM0402;
 EndCmp
 
 BeginCmp
-TimeStamp = /5389B09E;
+TimeStamp = /53B81AA3;
 Reference = R7;
 ValeurCmp = 560;
 IdModule  = 10to7_sm_standard:SM0402;
 EndCmp
 
 BeginCmp
-TimeStamp = /5389B242;
+TimeStamp = /53B81A8F;
 Reference = R8;
 ValeurCmp = 560;
 IdModule  = 10to7_sm_standard:SM0402;
 EndCmp
 
 BeginCmp
-TimeStamp = /536AA833;
-Reference = SW1;
-ValeurCmp = Pump;
+TimeStamp = /53B811EA;
+Reference = SW_Light1;
+ValeurCmp = SW_PUSH;
 IdModule  = 10to7_discrete:SW_PUSH_SMALL;
 EndCmp
 
 BeginCmp
-TimeStamp = /536D5BFC;
-Reference = SW3;
-ValeurCmp = Light;
+TimeStamp = /53B81256;
+Reference = SW_Pump1;
+ValeurCmp = SW_PUSH;
 IdModule  = 10to7_discrete:SW_PUSH_SMALL;
 EndCmp
 
 BeginCmp
-TimeStamp = /53691F00;
+TimeStamp = /53B5D8FA;
 Reference = U1;
 ValeurCmp = NRF24L01-10PIN;
 IdModule  = 10to7_modules:NRF24L01_10_Pin;
 EndCmp
 
 BeginCmp
-TimeStamp = /53680FFE;
+TimeStamp = /53B5D87A;
 Reference = U2;
 ValeurCmp = ARDUINO_NANO;
 IdModule  = 10to7_arduino:Arduino_Nano;
