@@ -24,6 +24,9 @@ const int lowWater = 18;//A4
 const int tankOne = 16;//A2
 const int tankTwo = 17;//A3
 
+const int maxPumpRun = 32000;
+unsigned long pumpStartTime;
+
 const float minTape = 761;
 const float maxTape = 118.92;
 
@@ -38,18 +41,7 @@ int notEnoughWater = 0;
 
 void setup(void) {
   Serial.begin(9600);
-  
-  setupRadio();
-  if(getDate()) {
-   // create the alarms 
-    Alarm.alarmRepeat(6,0,0, MorningAlarm);  // 0600 every day
-    Alarm.alarmRepeat(22,00,0,EveningAlarm);  // 2200 every day 
-    if(hour() > 6 || hour() < 22) {
-      MorningAlarm();
-    } else {
-      EveningAlarm();
-    }
-  }
+  Serial.println("Restarted");
   
   pinMode(pumpSwitch, INPUT);
   pinMode(lightSwitch, INPUT);
@@ -70,18 +62,30 @@ void setup(void) {
   
   digitalWrite(lightPin, HIGH);
   digitalWrite(pumpPin, HIGH);
+  
+  setupRadio();
+  if(getDate()) {
+   // create the alarms 
+    Alarm.alarmRepeat(5,0,0, MorningAlarm);  // 0600 every day
+    Alarm.alarmRepeat(20,0,0,EveningAlarm);  // 2000 every day 
+    if(hour() > 6 && hour() < 20) {
+      MorningAlarm();
+    } else {
+      EveningAlarm();
+    }
+  }
 }
 
 void loop(void) {
   pumpProcesses();
-  delay(100);
+  Alarm.delay(100); // using Alarm.delay, yo allow the alarms to be triggered.
   
 }
 
 void MorningAlarm() {
   Serial.println("Morning Alarm");
   digitalWrite(lightPin, LOW);
-  digitalWrite(pumpPin, LOW);
+  startPump();
   // make sure we have the right time;
   getDate();
 }
@@ -193,7 +197,26 @@ void setTimeFromChar(char* date) {
   setTime(atoi(cHour), atoi(cMin), atoi(cSec), atoi(cDay), atoi(cMonth), atoi(cYear));
 }
 
+void startPump() {
+  pumpStartTime = millis();
+  digitalWrite(pumpPin, LOW);
+}
+void stopPump() {
+  pumpStartTime = 0;
+  digitalWrite(pumpPin, HIGH);
+}
+boolean pumpOverrun() {
+  // overrun, just kill this cycle
+  if (millis() < pumpStartTime) {
+    return true;
+  }
+  return (millis() - pumpStartTime) > maxPumpRun;
+}
 void pumpProcesses() {
+  if(pumpOverrun() == true) {
+    stopPump();
+    return;
+  }
   pumpState = digitalRead(pumpPin);
   lightState = digitalRead(lightSwitch);
   tankOneState = digitalRead(tankOne);
@@ -218,16 +241,16 @@ void pumpProcesses() {
       if(digitalRead(pumpSwitch) == LOW 
       && pumpChanged == HIGH) {
         Serial.println("Pump button pressed.");
-        digitalWrite(pumpPin, LOW);
+        startPump();
       }
     } else {
       if (pumpChanged == HIGH 
       && lastpumpSwitchState == LOW) {
-        digitalWrite(pumpPin, HIGH);
+        stopPump();
       }
     }
   } else {
-    digitalWrite(pumpPin, HIGH);
+    stopPump();
   }
   
   if(notEnoughWater == 1) {
