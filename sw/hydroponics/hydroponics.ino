@@ -2,7 +2,6 @@
 #include "nRF24L01.h"
 #include "RF24.h"
 #include <Time.h>
-#include <TimeAlarms.h>
 
 #define RF_SETUP 0x17
 
@@ -37,6 +36,8 @@ int tankTwoState = 0;
 int lowWaterState = 0;
 int lastpumpSwitchState = 0;
 
+int duskdawnflag = 0;
+
 int notEnoughWater = 0;
 
 void setup(void) {
@@ -65,36 +66,47 @@ void setup(void) {
   
   setupRadio();
   if(getDate()) {
-   // create the alarms 
-    Alarm.alarmRepeat(5,0,0, MorningAlarm);  // 0600 every day
-    Alarm.alarmRepeat(20,0,0,EveningAlarm);  // 2000 every day 
-    if(hour() > 6 && hour() < 20) {
-      MorningAlarm();
+    if(hour() > 7 && hour() < 21) {
+      duskdawnflag = 0;
+      DayCycle();
     } else {
-      EveningAlarm();
+      duskdawnflag = 1;
+      NightCycle();
     }
   }
 }
 
 void loop(void) {
   pumpProcesses();
-  Alarm.delay(100); // using Alarm.delay, yo allow the alarms to be triggered.
+  
+  if(hour() > 7 && hour() < 21) {
+      DayCycle();
+    } else {
+      NightCycle();
+    }
+  delay(100); // using Alarm.delay, yo allow the alarms to be triggered.
   
 }
 
-void MorningAlarm() {
-  Serial.println("Morning Alarm");
-  digitalWrite(lightPin, LOW);
-  startPump();
-  // make sure we have the right time;
-  getDate();
+void DayCycle() {
+  if(duskdawnflag == 0) {
+    Serial.println("Day Mode");
+    digitalWrite(lightPin, LOW);
+    startPump();
+    // make sure we have the right time;
+    getDate();
+    duskdawnflag = 1;
+  }
 }
 
-void EveningAlarm() {
-  Serial.println("Evening Alarm");
-  digitalWrite(lightPin, HIGH);
-  // make sure we have the right time;
-  getDate();
+void NightCycle() {
+  if(duskdawnflag == 1) {
+    Serial.println("Night Mode");
+    digitalWrite(lightPin, HIGH);
+    // make sure we have the right time;
+    getDate();
+    duskdawnflag = 0;
+  }
 }
 
 void setupRadio() {
