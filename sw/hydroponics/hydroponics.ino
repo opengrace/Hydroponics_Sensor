@@ -25,6 +25,7 @@ const int tankTwo = 17;//A3
 
 const int maxPumpRun = 32000;
 unsigned long pumpStartTime;
+unsigned long lastsync;
 
 const float minTape = 761;
 const float maxTape = 118.92;
@@ -66,7 +67,8 @@ void setup(void) {
   
   setupRadio();
   if(getDate()) {
-    if(hour() > 7 && hour() < 21) {
+    lastsync = millis();
+    if(hour() > 5 && hour() < 21) {
       duskdawnflag = 0;
       DayCycle();
     } else {
@@ -79,11 +81,12 @@ void setup(void) {
 void loop(void) {
   pumpProcesses();
   
-  if(hour() > 7 && hour() < 21) {
+  if(hour() > 5 && hour() < 21) {
       DayCycle();
     } else {
       NightCycle();
     }
+  
   delay(100); // using Alarm.delay, yo allow the alarms to be triggered.
   
 }
@@ -219,6 +222,9 @@ void stopPump() {
 }
 boolean pumpOverrun() {
   // overrun, just kill this cycle
+  if(pumpStartTime == 0) {
+    return false;
+  }
   if (millis() < pumpStartTime) {
     return true;
   }
@@ -252,12 +258,13 @@ void pumpProcesses() {
     if(digitalRead(pumpPin) == HIGH) {
       if(digitalRead(pumpSwitch) == LOW 
       && pumpChanged == HIGH) {
-        Serial.println("Pump button pressed.");
+        Serial.println("Pump button pressed. - Manually started");
         startPump();
       }
     } else {
       if (pumpChanged == HIGH 
       && lastpumpSwitchState == LOW) {
+        Serial.println("Pump button pressed. - Manually stopped");
         stopPump();
       }
     }
