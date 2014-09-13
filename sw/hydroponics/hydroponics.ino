@@ -2,6 +2,7 @@
 #include "nRF24L01.h"
 #include "RF24.h"
 #include <Time.h>
+#include <TimeAlarms.h>
 
 #define RF_SETUP 0x17
 
@@ -14,18 +15,14 @@ uint8_t counter=0;
 const int lightPin = 7; //D7
 const int pumpPin = 6; //D6
 const int errorLED = 8; //D8
-//const int blinkLED = 0; //A7
-const int eTapeRef = 15; //A1
-const int eTape = A0; //A0
-const int pumpSwitch = 19; //A6 Using the light switch due to board error A6/A7 can't be used as digital pins.
-const int lightSwitch = 19; //A5
-const int lowWater = 18;//A4
-const int tankOne = 16;//A2
-const int tankTwo = 17;//A3
-
-const int maxPumpRun = 32000;
-unsigned long pumpStartTime;
-unsigned long lastsync;
+const int blinkLED = A1; //A1
+const int eTapeRef = A7; //A7
+const int eTape = A6; //A6
+const int pumpSwitch = A0; //A0
+const int lightSwitch = A5; //A5
+const int lowWater = A4;//A4
+const int tankOne = A2;//A2
+const int tankTwo = A3;//A3
 
 const float minTape = 761;
 const float maxTape = 118.92;
@@ -37,13 +34,22 @@ int tankTwoState = 0;
 int lowWaterState = 0;
 int lastpumpSwitchState = 0;
 
-int duskdawnflag = 0;
-
 int notEnoughWater = 0;
 
 void setup(void) {
   Serial.begin(9600);
-  Serial.println("Restarted");
+  
+  setupRadio();
+  if(getDate()) {
+   // create the alarms 
+    Alarm.alarmRepeat(6,0,0, MorningAlarm);  // 0600 every day
+    Alarm.alarmRepeat(22,00,0,EveningAlarm);  // 2200 every day 
+    if(hour() > 6 || hour() < 22) {
+      MorningAlarm();
+    } else {
+      EveningAlarm();
+    }
+  }
   
   pinMode(pumpSwitch, INPUT);
   pinMode(lightSwitch, INPUT);
@@ -54,62 +60,38 @@ void setup(void) {
   pinMode(pumpPin, OUTPUT);
   pinMode(lightPin, OUTPUT);
   pinMode(errorLED, OUTPUT);
-  //pinMode(blinkLED, OUTPUT);
+  pinMode(blinkLED, OUTPUT);
   
   digitalWrite(pumpSwitch, HIGH);
   digitalWrite(lightSwitch, HIGH);
   digitalWrite(lowWater, HIGH);
   digitalWrite(tankOne, HIGH);
   digitalWrite(tankTwo, HIGH);
+  digitalWrite(blinkLED, HIGH);
   
   digitalWrite(lightPin, HIGH);
   digitalWrite(pumpPin, HIGH);
-  
-  setupRadio();
-  if(getDate()) {
-    lastsync = millis();
-    if(hour() > 5 && hour() < 21) {
-      duskdawnflag = 0;
-      DayCycle();
-    } else {
-      duskdawnflag = 1;
-      NightCycle();
-    }
-  }
 }
 
 void loop(void) {
   pumpProcesses();
-  
-  if(hour() > 5 && hour() < 21) {
-      DayCycle();
-    } else {
-      NightCycle();
-    }
-  
-  delay(100); // using Alarm.delay, yo allow the alarms to be triggered.
+  delay(100);
   
 }
 
-void DayCycle() {
-  if(duskdawnflag == 0) {
-    Serial.println("Day Mode");
-    digitalWrite(lightPin, LOW);
-    startPump();
-    // make sure we have the right time;
-    getDate();
-    duskdawnflag = 1;
-  }
+void MorningAlarm() {
+  Serial.println("Morning Alarm");
+  digitalWrite(lightPin, LOW);
+  digitalWrite(pumpPin, LOW);
+  // make sure we have the right time;
+  getDate();
 }
 
-void NightCycle() {
-  if(duskdawnflag == 1) {
-    Serial.println("Night Mode");
-    digitalWrite(lightPin, HIGH);
-    // make sure we have the right time;
-    getDate();
-    duskdawnflag = 0;
-  }
+void EveningAlarm() {
+  Serial.println("Evening Alarm");
+  digitalWrite(lightPin, HIGH);
+  // make sure we have the right time;
+  getDate();
 }
 
 void setupRadio() {
@@ -144,13 +126,14 @@ boolean getDate() {
   radio.stopListening();
     
   // Send to hub
+  digitalWrite(blinkLED, LOW);
   if ( radio.write( outBuffer, strlen(outBuffer)) ) {
     Serial.println("Send Time Request: successful\n\r"); 
   }
   else {
     Serial.println("Send Time Request: failed\n\r"); 
-    
   }
+  digitalWrite(blinkLED, HIGH);
   
   radio.startListening();
   delay(20);
@@ -197,79 +180,53 @@ void setTimeFromChar(char* date) {
   Serial.println(date);
   
   Serial.print(" Hour : ");
-  Serial.println(cHour);
+  Serial.print(cHour);
   Serial.print(" Min : ");
-  Serial.println(cMin);
+  Serial.print(cMin);
   Serial.print(" Sec : ");
-  Serial.println(cSec);
+  Serial.print(cSec);
   Serial.print(" Day :  ");
-  Serial.println(cDay);
+  Serial.print(cDay);
   Serial.print(" Month : ");
-  Serial.println(cMonth);
+  Serial.print(cMonth);
   Serial.print(" Year : ");
   Serial.println(cYear);
   
   setTime(atoi(cHour), atoi(cMin), atoi(cSec), atoi(cDay), atoi(cMonth), atoi(cYear));
 }
 
-void startPump() {
-  pumpStartTime = millis();
-  digitalWrite(pumpPin, LOW);
-}
-void stopPump() {
-  pumpStartTime = 0;
-  digitalWrite(pumpPin, HIGH);
-}
-boolean pumpOverrun() {
-  // overrun, just kill this cycle
-  if(pumpStartTime == 0) {
-    return false;
-  }
-  if (millis() < pumpStartTime) {
-    return true;
-  }
-  return (millis() - pumpStartTime) > maxPumpRun;
-}
 void pumpProcesses() {
-  if(pumpOverrun() == true) {
-    stopPump();
-    return;
-  }
   pumpState = digitalRead(pumpPin);
   lightState = digitalRead(lightSwitch);
   tankOneState = digitalRead(tankOne);
   tankTwoState = digitalRead(tankTwo);
   lowWaterState = digitalRead(lowWater);
   
-  
+  int pumpChanged = (lastpumpSwitchState != digitalRead(pumpSwitch));
+  lastpumpSwitchState = digitalRead(pumpSwitch);
   /*
   Serial.print("Switch state : ");
   Serial.print(pumpState);
   Serial.print(lightState);
   Serial.print(tankOneState);
   Serial.print(tankTwoState);
-  Serial.println(lowWaterState);
+  Serial.print(lowWaterState);
+  Serial.println(pumpChanged);
   */
-  int pumpChanged = (lastpumpSwitchState != digitalRead(pumpSwitch));
-  lastpumpSwitchState = digitalRead(pumpSwitch);
-  
-  
   if(checkTankState() == true) {
     if(digitalRead(pumpPin) == HIGH) {
       if(digitalRead(pumpSwitch) == LOW 
       && pumpChanged == HIGH) {
-        Serial.println("Pump button pressed. - Manually started");
-        startPump();
+        digitalWrite(pumpPin, LOW);
       }
     } else {
       if (pumpChanged == HIGH 
       && lastpumpSwitchState == LOW) {
-        Serial.println("Pump button pressed. - Manually stopped");
-        stopPump();
+        digitalWrite(pumpPin, HIGH);
       }
     }
   } else {
-    stopPump();
+    digitalWrite(pumpPin, HIGH);
   }
   
   if(notEnoughWater == 1) {
