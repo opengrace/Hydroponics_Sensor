@@ -3,6 +3,8 @@
 #include "RF24.h"
 #include <Time.h>
 #include <TimeAlarms.h>
+#include <Wire.h>
+#include <DS1307RTC.h>
 
 #define RF_SETUP 0x17
 
@@ -33,6 +35,7 @@ int tankOneState = 0;
 int tankTwoState = 0;
 int lowWaterState = 0;
 int lastpumpSwitchState = 0;
+int lastLightSwitchState = 0;
 
 int notEnoughWater = 0;
 
@@ -43,7 +46,7 @@ void setup(void) {
   if(getDate()) {
    // create the alarms 
     Alarm.alarmRepeat(6,0,0, MorningAlarm);  // 0600 every day
-    Alarm.alarmRepeat(22,00,0,EveningAlarm);  // 2200 every day 
+    Alarm.alarmRepeat(22,00,0, EveningAlarm);  // 2200 every day 
     if(hour() > 6 || hour() < 22) {
       MorningAlarm();
     } else {
@@ -75,7 +78,8 @@ void setup(void) {
 
 void loop(void) {
   pumpProcesses();
-  delay(100);
+  lightProcess();
+  Alarm.delay(100);
   
 }
 
@@ -195,9 +199,30 @@ void setTimeFromChar(char* date) {
   setTime(atoi(cHour), atoi(cMin), atoi(cSec), atoi(cDay), atoi(cMonth), atoi(cYear));
 }
 
+void lightProcess(){
+	lightState = digitalRead(lightSwitch);
+	int lightChanged = (lastLightSwitchState != digitalRead(lightSwitch));
+	lastLightSwitchState = digitalRead(lightSwitch);
+	
+	if(checkTankState() == true) {
+		if(digitalRead(lightPin) == HIGH) {
+			if(digitalRead(lightSwitch) == LOW
+			&& lightChanged == HIGH) {
+				digitalWrite(lightPin, LOW);
+			}
+			} else {
+			if (lightChanged == HIGH
+			&& lastLightSwitchState == LOW) {
+				digitalWrite(lightPin, HIGH);
+			}
+		}
+		} else {
+		digitalWrite(lightPin, HIGH);
+	}
+}
 void pumpProcesses() {
   pumpState = digitalRead(pumpPin);
-  lightState = digitalRead(lightSwitch);
+  
   tankOneState = digitalRead(tankOne);
   tankTwoState = digitalRead(tankTwo);
   lowWaterState = digitalRead(lowWater);
